@@ -24,10 +24,12 @@ class Card:
     def __str__(self):
         # implement for debugging or printing
         return ", ".join(
-            f"Card({self.suit}",
-            f"{self.value}",
-            f"{self.suit_value}",
-            f"{self.card_value})",
+            [
+                f"Card({self.suit}",
+                f"{self.value}",
+                f"{self.suit_value}",
+                f"{self.card_value})",
+            ]
         )
 
     def __repr__(self):
@@ -41,7 +43,7 @@ class Card:
         )
 
     def __lt__(self, cmp):
-        if self.suit_value == cmp._uit_value:
+        if self.suit_value == cmp.suit_value:
             return self.card_value < cmp.card_value
 
         return self.suit_value < cmp.suit_value

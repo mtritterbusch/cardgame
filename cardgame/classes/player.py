@@ -47,6 +47,12 @@ class Player:
     def hand(self):
         return self._hand.copy()
 
+    @hand.setter
+    def hand(self, new_hand):
+        # having a setter for player hand allows for more complicated
+        # games rules, like players swapping hands on some condition
+        self._hand = new_hand.copy()
+
     @property
     def score(self):
         return self._score
