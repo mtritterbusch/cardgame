@@ -66,6 +66,36 @@ while not game.is_game_over():
         print(f"{player.name} drew a {card.value} of {card.suit}")
 
 player_rankings = game.player_rankings()
-# print(player_rankings)
-player = player_rankings[0]
-print(f"\n{player.name} won with {player.score} points")
+
+winners = []
+for player in player_rankings:
+    if len(winners):
+        if player.score < winners[-1].score:
+            break
+
+    winners.append(player)
+
+num_winners = len(winners)
+
+if num_winners == 1:
+    player = winners[0]
+    print(f"\n{player.name} won with {player.score} points")
+else:
+    if num_winners > 2:
+        tie_type = f"{num_winners}-way "
+    else:
+        tie_type = ""
+
+    player = winners.pop()
+    names = " and ".join(
+        [
+            ", ".join(
+                [
+                    p.name for p in winners
+                ]
+            ),
+            player.name
+        ]
+    )
+
+    print(f"\nIt's a {tie_type}tie between {names} at {player.score} points!")
