@@ -41,6 +41,7 @@ class CardGame:
         self._max_players = 0
         self._players = []
         self._turn_order = []
+        self._random_turn_order = True
 
         random.seed()
 
@@ -51,6 +52,21 @@ class CardGame:
     @property
     def max_players(self):
         return self._max_players
+
+    @property
+    def random_turn_order(self):
+        return self._random_turn_order
+
+    @random_turn_order.setter
+    def random_turn_order(self, value):
+        self._random_turn_order = value
+
+    def remove_all_players(self):
+        self._players = []
+        self._turn_order = []
+
+    def get_current_players(self):
+        return self._players.copy()
 
     def add_player(self, player_name):
         if not isinstance(player_name, str):
