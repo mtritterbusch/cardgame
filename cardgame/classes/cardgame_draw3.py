@@ -2,7 +2,6 @@ import random
 
 from cardgame.classes.cardgame import (
     CardGame,
-    InvalidNumberOfPlayers,
     NeedMorePlayers
 )
 from cardgame.classes.deckmanager import DeckManager
@@ -10,9 +9,9 @@ from cardgame.classes.deckmanager import DeckManager
 
 class Draw3Game(CardGame):
     """
-    Draw3Game:  2 players
+    Draw3Game:  default is min 2 players, max 8 players
         initial hand each player takes turns drawing a card up to 3
-        points per card are (suit + 1) * value
+        points per card are suit_value * card_value
         winner has highest number of points
     """
     def __init__(self):
@@ -26,7 +25,28 @@ class Draw3Game(CardGame):
         self._turn_num = 0
         self._round_num = 0
 
+    @property
+    def num_rounds(self):
+        return self._num_rounds
+
+    @property
+    def turn_num(self):
+        return self._turn_num
+
+    @property
+    def round_num(self):
+        return self._round_num
+
     def setup_game(self, deck=None, player_names=['Fred', 'Sally']):
+        """
+        setup_game(
+            deck=None,   # can supply a deck
+            player_names=['Fred', 'Sally']  # list of player names
+        )
+
+        Note:  self.add_player(player_name) will raise MaxPlayersHit
+            exception if you try to add more than max players
+        """
         if deck is None:
             # default to standard 52-card deck
             self._deck = DeckManager()
@@ -38,18 +58,30 @@ class Draw3Game(CardGame):
             self.add_player(player_name)
 
     def start_game(self, random_start=True):
+        """
+        start_game(random_start=True)
+            checks to see if we have at least min required players
+                raises NeedMorePlayers exception if below min
+            random_start=True to shuffle player turn order
+        """
         if len(self._players) < self.min_players:
             raise NeedMorePlayers
-        elif len(self._players) > self.max_players:
-            raise InvalidNumberOfPlayers
 
         if random_start:
             random.shuffle(self._turn_order)
 
     def is_game_over(self):
+        """
+        is_game_over()
+            for Draw3 game, the game is over after 3 rounds (default)
+        """
         return self._round_num >= self._num_rounds
 
     def get_current_player(self):
+        """
+        get_current_player()
+            returns current player (based on turns)
+        """
         return self._players[
             self._turn_order[
                 self._turn_num
@@ -57,6 +89,12 @@ class Draw3Game(CardGame):
         ]
 
     def next_turn(self):
+        """
+        next_turn()
+            processes a turn for the current player
+            in the case of Draw3, it is just drawing a card
+                from the deck
+        """
         # current player draws a card
         player = self.get_current_player()
         player.draw_card(self._deck)
@@ -65,6 +103,11 @@ class Draw3Game(CardGame):
             self._round_num += 1
 
     def calc_points(self, hand):
+        """
+        calc_points(hand)
+            calculates and returns the points for the current
+                hand (from a Player object)
+        """
         points = 0
         for card in hand:
             points += card.suit_value * card.card_value
@@ -72,6 +115,12 @@ class Draw3Game(CardGame):
         return points
 
     def player_rankings(self):
+        """
+        player_rankings()
+            returns the list of Player object with the winner
+                at [0] followed by other players
+                in descending order
+        """
         for player in self._players:
             player.score = self.calc_points(player.hand)
 
