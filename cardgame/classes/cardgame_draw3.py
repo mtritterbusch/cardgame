@@ -54,10 +54,13 @@ class Draw3Game(CardGame):
         else:
             self._deck = deck
 
-        for player_name in player_names:
-            self.add_player(player_name)
+        # calling setup_game() will clear players every time
+        self.remove_all_players()
+        if player_names:
+            for player_name in player_names:
+                self.add_player(player_name)
 
-    def start_game(self, random_start=True):
+    def start_game(self):
         """
         start_game(random_start=True)
             checks to see if we have at least min required players
@@ -67,7 +70,7 @@ class Draw3Game(CardGame):
         if len(self._players) < self.min_players:
             raise NeedMorePlayers
 
-        if random_start:
+        if self.random_turn_order:
             random.shuffle(self._turn_order)
 
     def is_game_over(self):
@@ -101,6 +104,8 @@ class Draw3Game(CardGame):
         self._turn_num = (self._turn_num + 1) % len(self._players)
         if self._turn_num == 0:
             self._round_num += 1
+
+        return player
 
     def calc_points(self, hand):
         """
