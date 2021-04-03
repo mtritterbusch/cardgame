@@ -78,7 +78,7 @@ class Draw3Game(CardGame):
         is_game_over()
             for Draw3 game, the game is over after 3 rounds (default)
         """
-        return self._round_num >= self._num_rounds
+        return self.round_num > self.num_rounds
 
     def get_current_player(self):
         """
@@ -87,7 +87,7 @@ class Draw3Game(CardGame):
         """
         return self._players[
             self._turn_order[
-                self._turn_num
+                self._turn_num - 1
             ]
         ]
 
@@ -97,13 +97,20 @@ class Draw3Game(CardGame):
             processes a turn for the current player
             in the case of Draw3, it is just drawing a card
                 from the deck
+
+            returns None on game over
         """
+        self._turn_num = (self._turn_num + 1) % len(self._players)
         # current player draws a card
+        if self._turn_num == 1:
+            self._round_num += 1
+            if self.is_game_over():
+                # just in case someone calls
+                # next_turn() after the game is over
+                return None
+            self.new_round(self.round_num)
         player = self.get_current_player()
         player.draw_card(self._deck)
-        self._turn_num = (self._turn_num + 1) % len(self._players)
-        if self._turn_num == 0:
-            self._round_num += 1
 
         return player
 

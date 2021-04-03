@@ -3,6 +3,11 @@ from argparse import ArgumentParser
 from cardgame.classes.cardgame import NeedMorePlayers, MaxPlayersHit
 from cardgame.classes.cardgame_draw3 import Draw3Game
 
+
+def new_round(round_num):
+    print(f"Round #{round_num}")
+
+
 parser = ArgumentParser(description="Plays the Draw3 card game")
 parser.add_argument(
     '--players',
@@ -23,8 +28,15 @@ args = parser.parse_args()
 if args.players:
     players_raw = args.players.split(',')
     player_names = []
+    player_check = []
     for player_name in players_raw:
-        player_names.append(player_name.strip())
+        new_player = player_name.strip()
+        if new_player.lower() in player_check:
+            print(f"Please make sure each player name is unique.  {new_player} appears more than once.")
+            exit(1)
+
+        player_names.append(new_player)
+        player_check.append(new_player.lower())
 else:
     player_names = ['Buck', 'Cherry']
 
@@ -39,6 +51,8 @@ except MaxPlayersHit:
 try:
     if args.verbose:
         print("\nStarting game...\n")
+        # verbose is set, so print round numbers
+        game.new_round = new_round
 
     if args.random_off:
         game.random_turn_order = False
@@ -59,8 +73,9 @@ if args.verbose:
 
     print(f"Players are:  {names}")
 
-while not game.is_game_over():
-    player = game.next_turn()
+while game.next_turn() is not None:
+    player = game.get_current_player()
+
     if args.verbose:
         card = player.hand[-1]
         print(f"{player.name} drew a {card.value} of {card.suit}")

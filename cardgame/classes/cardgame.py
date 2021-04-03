@@ -87,3 +87,7 @@ class CardGame:
     def start_game(self, random_start=True):
         # start the game
         raise NotImplementedError
+
+    def new_round(self, round_num):
+        # called when a new round starts
+        pass
