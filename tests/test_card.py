@@ -29,9 +29,11 @@ class TestCard(TestCase):
         card1 = Card('Suit1', 'Value1', 1, 2)
         card2 = Card('Suit2', 'Value2', 2, 3)
         card3 = Card('Suit1', 'Value1', 1, 2)
+        card4 = Card('Suit1', 'Value4', 1, 4)
 
         self.assertGreater(card2, card1)
         self.assertEqual(card1, card3)
+        self.assertLess(card1, card4)
 
     def test_card_copy(self):
         """
@@ -41,3 +43,25 @@ class TestCard(TestCase):
         card_copy = card1.__copy__()
 
         self.assertEqual(card1, card_copy)
+
+    def test_card_str(self):
+        """
+        test_card_str():  test str and repr of Card()
+        """
+        suit = "SuitX"
+        suit_value = 5
+        value = "ValueY"
+        card_value = 6
+
+        expected_str = ", ".join(
+            [
+                f"Card({suit}",
+                f"{value}",
+                f"{suit_value}",
+                f"{card_value})",
+            ]
+        )
+
+        card = Card(suit, value, suit_value, card_value)
+        self.assertEqual(expected_str, str(card))
+        self.assertEqual(expected_str, card.__repr__())

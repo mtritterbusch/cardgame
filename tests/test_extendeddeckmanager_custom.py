@@ -10,13 +10,17 @@ from cardgame.classes.extendeddeckmanager import ExtendedDeckManager
 from .helper import Helper
 
 
-class TestExtendedDeckManagerCustom(TestCase, Helper):
+class TestExtendedDeckManagerCustom(TestCase):
     """
     TestExtendedDeckManagerCustom():
         tests 2 different custom decks
     """
-    def create_deck_manager(self, *args, **kwargs):
-        pass
+    @staticmethod
+    def create_deck_manager():
+        """
+        create_deck_manager()
+            not required in these tests
+        """
 
     def base_tests(self, deck_mgr, deck, suits, values):
         """
@@ -49,6 +53,16 @@ class TestExtendedDeckManagerCustom(TestCase, Helper):
         self.assertNotEqual(deck, shuffled)
         # make sure deck manager internal deck is shuffled
         self.assertEqual(shuffled, deck_mgr.deck())
+
+    def test_create_deck_manager(self):
+        """
+        test_create_deck_manager()
+            test that it returns None
+        """
+        self.assertEqual(
+            None,
+            TestExtendedDeckManagerCustom.create_deck_manager()
+        )
 
     def test_invalid_initial_deck(self):
         """

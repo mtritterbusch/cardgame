@@ -2,13 +2,14 @@
 test_player_deckmanager.py:
     tests Player() interactions with DeckManager()
 """
-from unittest import TestCase
-
 from cardgame.classes.deckmanager import DeckManager
 from cardgame.classes.player import Player
 
+from .test_player import TestPlayer
+from .test_deckmanager_normal import TestDeckManager
 
-class TestPlayerDeckManager(TestCase):
+
+class TestPlayerDeckManager(TestPlayer, TestDeckManager):
     """
     TestPlayerDeckManager():
         tests Player() interactions with DeckManager()

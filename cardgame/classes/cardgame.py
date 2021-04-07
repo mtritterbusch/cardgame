@@ -47,7 +47,7 @@ class CardGame:
         * rules about winning a round/hand/game
     """
     def __init__(self):
-        self._deck = None
+        self._deck_mgr = None
         self._min_players = 0
         self._max_players = 0
         self._players = []
@@ -55,6 +55,16 @@ class CardGame:
         self._random_turn_order = True
 
         random.seed()
+
+    def deck(self):
+        """
+        deck:  returns copy of deck in natural order
+        """
+        if self._deck_mgr is None:
+            raise DeckNotInitialized
+
+        # returns in natural order
+        return self._deck_mgr.deck()
 
     @property
     def min_players(self):
@@ -81,6 +91,14 @@ class CardGame:
     @random_turn_order.setter
     def random_turn_order(self, value):
         self._random_turn_order = value
+
+    def get_turn_order(self):
+        """
+        get_turn_order():  returns names of players in turn order
+        """
+        return [
+            self._players[idx].name for idx in self._turn_order
+        ]
 
     def remove_all_players(self):
         """
@@ -124,7 +142,7 @@ class CardGame:
         # i.e. add players, init other vars
         raise NotImplementedError
 
-    def start_game(self, random_start=True):
+    def start_game(self):
         """
         start_game(random_start=True):
             starts game, random_start=True implies random turn order

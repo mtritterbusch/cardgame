@@ -85,3 +85,19 @@ class TestPlayer(TestCase):
         player.hand = hand2
         self.assertNotEqual(str(hand1), str(player.hand))
         self.assertEqual(str(hand2), str(player.hand))
+
+    def test_player_representation(self):
+        """
+        test_player_representation()
+            test repr and str of Player()
+        """
+        player = Player("Rae")
+        expected_str = ", ".join(
+            [
+                f"Player('{player.name}'",
+                f"hand={player.hand}",
+                f"score={player.score})"
+            ]
+        )
+        self.assertEqual(expected_str, str(player))
+        self.assertEqual(expected_str, player.__repr__())
