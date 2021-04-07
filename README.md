@@ -5,7 +5,7 @@
 * once in virtual environment, run ```pip install -r requirements.txt```
 * to run tests, ```python -m unittest tests/*.py```
 * to run pylint:
-    ```python -m pylint *.py```
-    ```python -m pylint cardgame/classes/*.py```
-    ```python -m pylint tests/*.py```
+  * ```python -m pylint *.py```
+  * ```python -m pylint cardgame/classes/*.py```
+  * ```python -m pylint tests/*.py```
 * how to play the Draw3 game, ```python play_draw3.py -h```
