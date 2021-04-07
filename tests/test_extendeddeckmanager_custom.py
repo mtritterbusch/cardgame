@@ -1,3 +1,7 @@
+"""
+test_extendeddeckmanager_custom.py:
+    test a couple of custom decks
+"""
 from unittest import TestCase
 
 from cardgame.classes.deckmanager import InvalidDeckError
@@ -7,8 +11,18 @@ from .helper import Helper
 
 
 class TestExtendedDeckManagerCustom(TestCase, Helper):
+    """
+    TestExtendedDeckManagerCustom():
+        tests 2 different custom decks
+    """
+    def create_deck_manager(self, *args, **kwargs):
+        pass
 
     def base_tests(self, deck_mgr, deck, suits, values):
+        """
+        base_tests():
+            common set of tests custom decks should pass
+        """
         # make sure deck length hasn't changed
         self.assertEqual(len(deck), len(deck_mgr.deck()))
         # length of suits and values should not have changed
@@ -37,6 +51,11 @@ class TestExtendedDeckManagerCustom(TestCase, Helper):
         self.assertEqual(shuffled, deck_mgr.deck())
 
     def test_invalid_initial_deck(self):
+        """
+        test_invalid_initial_decks():  test to make sure
+            InvalidDeckError is raised when trying to create
+            ExtendedDeckManager() from invalid deck
+        """
         self.assertRaises(
             InvalidDeckError,
             ExtendedDeckManager.from_deck,
@@ -46,7 +65,12 @@ class TestExtendedDeckManagerCustom(TestCase, Helper):
         )
 
     def test_inital_deck(self):
-        suits_ranking, values_ranking = self.custom_suits_values_1()
+        """
+        test_initial_deck():
+            run base_tests() against deckmanager built from
+                custom #1 in Helper
+        """
+        suits_ranking, values_ranking = Helper.custom_suits_values_1()
         # make_deck() creates reversed deck
         # convert to natural order deck for testing comparisons
         deck = ExtendedDeckManager.make_deck(suits_ranking, values_ranking)
@@ -66,7 +90,12 @@ class TestExtendedDeckManagerCustom(TestCase, Helper):
         self.base_tests(deck_mgr, deck, suits_ranking, values_ranking)
 
     def test_custom_deck2(self):
-        suits_ranking, values_ranking = self.custom_suits_values_2()
+        """
+        test_custom_deck2():
+            run base_tests() against deckmanager built from
+                custom #2 in Helper
+        """
+        suits_ranking, values_ranking = Helper.custom_suits_values_2()
         # make_deck() return reversed deck, convert to natural order
         # for testing comparisons
         deck = ExtendedDeckManager.make_deck(suits_ranking, values_ranking)

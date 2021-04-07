@@ -1,3 +1,7 @@
+"""
+test_player_deckmanager.py:
+    tests Player() interactions with DeckManager()
+"""
 from unittest import TestCase
 
 from cardgame.classes.deckmanager import DeckManager
@@ -5,6 +9,10 @@ from cardgame.classes.player import Player
 
 
 class TestPlayerDeckManager(TestCase):
+    """
+    TestPlayerDeckManager():
+        tests Player() interactions with DeckManager()
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -15,15 +23,28 @@ class TestPlayerDeckManager(TestCase):
         self._deckmgr = DeckManager()
 
     def test_player_name(self):
+        """
+        test_player_name():
+            tests that players' names match what was assigned to them
+        """
         self.assertEqual(self._testname1, self._player1.name)
         self.assertEqual(self._testname2, self._player2.name)
 
     def test_player_initial_hand(self):
+        """
+        test_player_initial_hand():
+            tests that initial players' hands are empty lists
+        """
         self.assertEqual([], self._player1.hand)
         self.assertEqual([], self._player2.hand)
 
     def test_player_drawcard(self):
-        # deck() returns deck in natural order
+        """
+        test_player_drawcard():
+            tests for making sure drawing a card matches what is
+                in players' hands and place in deck
+        """
+        # deck() returns deck copy in natural order
         deck = self._deckmgr.deck()
         self._player1.draw_card(self._deckmgr)
         self.assertEqual(deck[0], self._player1.hand[0])

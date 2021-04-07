@@ -1,10 +1,15 @@
+"""
+cardgame_draw3.py:
+
+base class used to play Draw3Game()
+"""
 import random
 
-from cardgame.classes.cardgame import (
+from .cardgame import (
     CardGame,
     NeedMorePlayers
 )
-from cardgame.classes.deckmanager import DeckManager
+from .deckmanager import DeckManager
 
 
 class Draw3Game(CardGame):
@@ -27,21 +32,32 @@ class Draw3Game(CardGame):
 
     @property
     def num_rounds(self):
+        """
+        num_rounds():  returns max number of rounds in this game
+        """
         return self._num_rounds
 
     @property
     def turn_num(self):
+        """
+        turn_num():  return the turn number within a round
+        """
         return self._turn_num
 
     @property
     def round_num(self):
+        """
+        round_num():  returns current round in the game
+        """
         return self._round_num
 
-    def setup_game(self, deck=None, player_names=['Fred', 'Sally']):
+    # pylint:  disable-msg=W0221
+    def setup_game(self, deck=None, player_names=None):
         """
         setup_game(
             deck=None,   # can supply a deck
-            player_names=['Fred', 'Sally']  # list of player names
+            player_names=None, then default is ['Fred', 'Sally']
+                list of player names is expected
         )
 
         Note:  self.add_player(player_name) will raise MaxPlayersHit
@@ -56,11 +72,11 @@ class Draw3Game(CardGame):
 
         # calling setup_game() will clear players every time
         self.remove_all_players()
-        if player_names:
+        if player_names is not None:
             for player_name in player_names:
                 self.add_player(player_name)
 
-    def start_game(self):
+    def start_game(self, random_start=True):
         """
         start_game(random_start=True)
             checks to see if we have at least min required players
@@ -114,7 +130,8 @@ class Draw3Game(CardGame):
 
         return player
 
-    def calc_points(self, hand):
+    @staticmethod
+    def calc_points(hand):
         """
         calc_points(hand)
             calculates and returns the points for the current

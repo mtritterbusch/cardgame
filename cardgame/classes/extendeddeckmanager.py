@@ -1,3 +1,10 @@
+# pylint:  disable=protected-access
+"""
+extendeddeckmanger.py:
+    contains ExtendedDeckManager() class that is an
+    extension of DeckManager() class that gives
+    more flexibility in deck creation
+"""
 from .deckmanager import DeckManager, InvalidDeckError
 
 
@@ -21,17 +28,23 @@ class ExtendedDeckManager(DeckManager):
             values ranking
 
 
-    Notes:
+    NOTES:
 
         Not part of initial requirements, but pretending that through
             client discovery of additional requirements, this class
             was created
     """
-    def __init__(self):
-        super().__init__()
-
     @classmethod
     def from_suits_and_values(cls, suits_ranking, values_ranking):
+        """
+        from_suits_and_values(suits_ranking, values_ranking):
+            instantiate ExtendedDeckManager() using supplied
+            suits_ranking and values_ranking
+
+        NOTE:
+        deck is created using ExtendedDeckManager.make_deck()
+            with supplied suits_ranking and values_ranking
+        """
         # instantiate normal class
         ret_class = cls()
 
@@ -68,7 +81,13 @@ class ExtendedDeckManager(DeckManager):
 
     @classmethod
     def from_deck(cls, initial_deck, suits_ranking=None, values_ranking=None):
-        # initial_deck is expected to be in natural order
+        """
+        from_deck(initial_deck, suits_ranking=None, values_ranking=None):
+            classmethod for creating ExtendedDeckManager() from existing deck
+
+        initial_deck is expected to be in natural order
+        """
+
         # sanity checks on supplied deck
         # we could allow tuple of tuples
         if not isinstance(initial_deck, list):
@@ -81,24 +100,22 @@ class ExtendedDeckManager(DeckManager):
         ret_class = cls()
 
         if suits_ranking is not None:
-            if not isinstance(suits_ranking, list):
+            if (
+                not isinstance(suits_ranking, list) or
+                len(suits_ranking) == 0
+            ):
                 # we expect a list
-                raise InvalidDeckError
-            elif len(suits_ranking) == 0:
-                # if suits ranking is supplied,
-                # we need at least 1 item
                 raise InvalidDeckError
 
             # make copy to prevent outside modification
             ret_class._suits_ranking = suits_ranking.copy()
 
         if values_ranking is not None:
-            if not isinstance(values_ranking, list):
-                # we expect a list
-                raise InvalidDeckError
-            elif len(values_ranking) == 0:
-                # if values ranking is supplied,
-                # we need at least 1 item
+            if (
+                not isinstance(values_ranking, list) or
+                len(values_ranking) == 0
+            ):
+                # we expect a list with at least 1 item
                 raise InvalidDeckError
 
             # make copy to prevent outside modification
@@ -111,9 +128,19 @@ class ExtendedDeckManager(DeckManager):
         return ret_class
 
     def empty_deck(self):
+        """
+        empty_deck():  helper function to empty deck
+        """
         self._deck = []
 
     def peek_card(self, index):
+        """
+        peek_card(index):  helper function if game needs
+            to peek at a card
+
+        NOTE:
+        return Card() reference, not copy
+        """
         try:
             # assume index is in natural order and 1-based
             # our internal deck is reversed, so convert

@@ -1,5 +1,13 @@
+"""
+player.py:  class to represent a player, hand and score
+"""
+
+
 class InvalidName(Exception):
-    pass
+    """
+    InvalidName():  exception thown on trying to set
+        the player name with an invalid name
+    """
 
 
 class Player:
@@ -41,10 +49,16 @@ class Player:
 
     @property
     def name(self):
+        """
+        name():  returns player name
+        """
         return self._name
 
     @property
     def hand(self):
+        """
+        hand():  get/set player hand
+        """
         return self._hand.copy()
 
     @hand.setter
@@ -55,6 +69,9 @@ class Player:
 
     @property
     def score(self):
+        """
+        score():  get/set player score
+        """
         return self._score
 
     @score.setter
@@ -62,6 +79,13 @@ class Player:
         self._score = new_score
 
     def draw_card(self, deck_mgr):
-        # if deck is empty will raise error
-        # do not catch here
+        """
+        draw_card(deck_mgr):
+
+        Draws a card from the deck manager object and adds
+        it to this player's hand
+
+        if deck is empty will raise error
+        do not catch here
+        """
         self._hand.append(deck_mgr.draw_card())

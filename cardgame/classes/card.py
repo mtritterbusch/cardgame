@@ -1,3 +1,9 @@
+"""
+card.py
+
+uses total_ordering and implements __eq__() and __lt__()
+    so that one Card() class can be compared against another
+"""
 from functools import total_ordering
 
 
@@ -50,16 +56,28 @@ class Card:
 
     @property
     def suit(self):
+        """
+        suit:  returns string value of suit
+        """
         return self._suit
 
     @property
     def value(self):
+        """
+        value:  returns string value of card
+        """
         return self._value
 
     @property
     def suit_value(self):
+        """
+        suit_value:  returns numeric value of suit
+        """
         return self._suit_value
 
     @property
     def card_value(self):
+        """
+        card_value:  return numeric value of card
+        """
         return self._card_value

@@ -1,26 +1,37 @@
+"""
+cardgame.py:  base class for card games
+"""
 import random
 
-from cardgame.classes.player import Player
-
-
-class InvalidNumberOfPlayers(Exception):
-    pass
+from .player import Player
 
 
 class NeedMorePlayers(Exception):
-    pass
+    """
+    NeedMorePlayers:  exception thrown when trying to
+        start a game with too few players
+    """
 
 
 class MaxPlayersHit(Exception):
-    pass
+    """
+    MaxPlayersHit:  exception thrown when trying to add
+        more than max players
+    """
 
 
 class InvalidPlayerName(Exception):
-    pass
+    """
+    InvalidPlayerName:  exception thrown when trying to create
+        player with invalid name
+    """
 
 
 class DeckNotInitialized(Exception):
-    pass
+    """
+    DeckNotInitialized:  exception thrown when starting a game
+        before building the deck
+    """
 
 
 class CardGame:
@@ -47,14 +58,24 @@ class CardGame:
 
     @property
     def min_players(self):
+        """
+        min_players():  returns min players allow for this game
+        """
         return self._min_players
 
     @property
     def max_players(self):
+        """
+        max_players():  returns max players allow for this game
+        """
         return self._max_players
 
     @property
     def random_turn_order(self):
+        """
+        random_turn_order():  get/set if turn order is shuffled or
+            by order of player added
+        """
         return self._random_turn_order
 
     @random_turn_order.setter
@@ -62,13 +83,25 @@ class CardGame:
         self._random_turn_order = value
 
     def remove_all_players(self):
+        """
+        remove_all_players():  removes all players
+        """
         self._players = []
         self._turn_order = []
 
     def get_current_players(self):
+        """
+        get_current_players(): returns copy of current players
+        """
         return self._players.copy()
 
     def add_player(self, player_name):
+        """
+        add_player(player_name):
+            expects string player_name
+            checks that adding player will not exceed max players
+            adds Player(player_name) to end of player list
+        """
         if not isinstance(player_name, str):
             raise InvalidPlayerName
 
@@ -80,14 +113,35 @@ class CardGame:
         return len(self._players)
 
     def setup_game(self, *args, **kwargs):
+        """
+        setup_game(*args, **kwargs):
+            called to perform any setup/initialization of the game
+
+        NOTE:
+        method must be implemented
+        """
         # do any setup for the game before starting
         # i.e. add players, init other vars
         raise NotImplementedError
 
     def start_game(self, random_start=True):
+        """
+        start_game(random_start=True):
+            starts game, random_start=True implies random turn order
+            for players, if random_start=False, turn order is in
+            the order players were added
+
+        NOTE:
+        method must be implemented
+        """
         # start the game
         raise NotImplementedError
 
     def new_round(self, round_num):
+        """
+        new_round(round_num):  called when new round starts
+
+        NOTE:
+        override to perform action at this notification
+        """
         # called when a new round starts
-        pass
