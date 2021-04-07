@@ -2,15 +2,14 @@
 test_deckmanager_normal.py:
     tests a default DeckManager()
 """
-from unittest import TestCase
-
 from cardgame.classes.card import Card
 from cardgame.classes.deckmanager import DeckManager, EmptyDeckError
 
+from tests.test_card import TestCard
 from .helper import Helper
 
 
-class TestDeckManager(TestCase, Helper):
+class TestDeckManager(TestCard):
     """
     TestDeckManager():
         tests against standard DeckManager()

@@ -3,7 +3,7 @@ helper.py:  helper functions for custom decks
 """
 
 
-class Helper:
+class Helper:  # pragma: no cover
     """
     Helper():  helper functions for custom decks
     """
@@ -88,4 +88,13 @@ class Helper:
             'Queen',
             'King',
             'Ace',
+        ]
+
+    @staticmethod
+    def generate_player_names(count):
+        """
+        generate_player_names(): generates list of player names
+        """
+        return [
+            f"Player{x}" for x in range(1, count+1)
         ]
